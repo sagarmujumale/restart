@@ -4,8 +4,8 @@
 ansible_python_interpreter: /usr/bin/python3
 output: json
 region: us-east-1
-aws_access_key_id: AKIARCCC5H3UZWS5EMGR
-aws_secret_access_key: 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
+aws_access_key_id: 
+aws_secret_access_key: 
 
 instance_ids:
       - 'i-0d8e684aea28fcd5c'
