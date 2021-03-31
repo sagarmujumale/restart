@@ -31,6 +31,14 @@ def main(argv):
       file_object.write(acc)
       file_object.write("\n")
       file_object.write(sec)
+      if ENV == 'prf'
+         print 'Stopping AWS instanes for PRF environment'
+      elif ENV == 'prv'
+         print 'Stopping AWS instanes for PRV environment'
+      elif ENV == 'dev'
+         print 'Stopping AWS instanes for DEV environment'
+      elif ENV == 'all'
+         print 'Stopping AWS instanes for ALL environment'
 
 if __name__ == "__main__":
    main(sys.argv[1:])

@@ -3,6 +3,6 @@
 
 ansible_python_interpreter: /usr/bin/python3
 output: json
-
+region: us-east-1
 instance_ids:
       - 'i-0d8e684aea28fcd5c'
