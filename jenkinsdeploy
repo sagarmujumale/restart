@@ -1,0 +1,34 @@
+@Library('JenkinsSharedLibrary')
+import com.pb.jenkinsDeploy.credentialFunctions;
+import com.pb.jenkinsDeploy.deploymentFunctions;
+
+def ACCESS_KEY = env.AWS_ACCESS_KEY
+def KEY_ID = env.AWS_SECRET_ACCESS_KEY
+def ENV= env.ENVIRONMENT
+
+def gitUrl() {
+    return 'https://github.com/sagarmujumale/restart.git';
+}
+
+updateGitlabCommitStatus name: 'jenkins', state: 'running'
+
+stage('deploy') {
+    node('docker') {
+        //Initialize Shared Library Classes
+        def credentials = new com.pb.jenkinsDeploy.credentialFunctions()
+        def deploy = new com.pb.jenkinsDeploy.deploymentFunctions()
+        //Configure credentials
+        def region = credentials.region(env.ENVIRONMENT)
+        def environment = env.ENVIRONMENT
+        def ansible = credentials.ansibleVaultCredentials("${environment}")
+        def awsDns = credentials.awsCredentialsForDns("${environment}")
+        try {
+            deploy.gitClone("${gitUrl()}")
+            dir('restart') { 
+                sh " sagar.sh ${ACCESS_KEY} ${KEY_ID} ${ENV}"
+            }
+        } finally {
+            deleteDir()
+        }
+    } 
+} 
