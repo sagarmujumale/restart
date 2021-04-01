@@ -2,8 +2,9 @@
   ec2:
     aws_access_key: '{{ aws_access_key_id }}'
     aws_secret_key: '{{ aws_secret_access_key }}'
-    instance_ids: '{{ instance_ids }}'
+    instance_ids: '{{ item }}'
     region: '{{ region }}'
     state: stopped
     wait: True
-    assign_public_ip: yes
+    with_items:
+      - '{{ '{{ ENV }}' }}'

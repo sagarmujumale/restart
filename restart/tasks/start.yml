@@ -6,4 +6,3 @@
     region: '{{ region }}'
     state: running
     wait: True
-    assign_public_ip: yes

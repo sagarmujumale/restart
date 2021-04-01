@@ -1,0 +1,6 @@
+- name: "Stop the sandbox instances "
+  debug:
+    msg: "server names are '{{ item.value.hosts }}' "
+  with_dict: "{{ all }}"
+    # with_items: "{{ all['children']['prf'] }}"
+    # loop: "{{ groups['prf'] }}"
