@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, argparse, os
+import sys, getopt, os
 def prf():
   file1 = open('restart/files/prf', 'r')
   print 'Stopping AWS instanes for PRF environment'
@@ -44,39 +44,46 @@ def everything():
   dev()
 
 def main(argv):
-  parser = argparse.ArgumentParser()
-  parser.add_argument("env")
-  parser.add_argument("key")
-  parser.add_argument("secret")
-  parser.add_argument("token")
-  args = parser.parse_args()
-  print('ENVIRONMWNT is :- ' + args.env)
-  print('AWS-ACCESS-KEY is :- ' + args.key)
-  print('AWS-SECRET-KEY is :-' + args.secret)
-  print('AWS-SESSION-TOKEN is :-' + args.token)
-  acc = 'aws_access_key_id: ' + args.key
-  sec = 'aws_secret_access_key: ' + args.secret
-  tok = 'aws_session_token: ' + args.token 
+  ENV = ''
+  ACCESS = ''
+  SECRET = ''
+  try:
+    opts, args = getopt.getopt(argv,"he:a:s:",["efile=","afile=", "sfile"])
+  except getopt.GetoptError:
+    print 'test.py -e <environment> -a <aws-access-key> -s <aws-secret-key> '
+    sys.exit(4)
+  for opt, arg in opts:
+    if opt == '-h':
+      print 'test.py -e <environment> -a <aws-access-key> -s <aws-secret-key> '
+      sys.exit()
+    elif opt in ("-e", "--efile"):
+      ENV = arg
+    elif opt in ("-a", "--afile"):
+      ACCESS = arg
+    elif opt in ("-s", "--sfile"):
+      SECRET = arg
+  print 'ENVIRONMWNT is :- ', ENV
+  print 'AWS-ACCESS-KEY is :- ', ACCESS
+  print 'AWS-SECRET-KEY is :-', SECRET
+  acc = 'aws_access_key_id: ' + ACCESS
+  sec = 'aws_secret_access_key: ' + SECRET 
   with open("restart/vars/main.yml", "a") as file_object:
     file_object.write("\n")
     file_object.write(acc)
     file_object.write("\n")
     file_object.write(sec)
     file_object.write("\n")
-    file_object.write(tok)
-    file_object.write("\n")
   cmd1 = 'cp restart/vars/main.yml restart/files/variable'
   os.system(cmd1) 
-  if args.env == 'prf':
+  if ENV == 'prf':
+    print 'Stopping AWS instanes for PRF environment'
     prf()
-  elif args.env == 'prv':
+  elif ENV == 'prv':
     prv()
-  elif args.env == 'dev':
+  elif ENV == 'dev':
     dev()
-  elif args.env == 'all':
-    prf()
-    prv()
-    dev()
+  elif ENV == 'all':
+      everything()
 
 if __name__ == "__main__":
    main(sys.argv[1:])

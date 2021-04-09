@@ -1,4 +1,4 @@
 ---
 # tasks file for restart
 
-- import_tasks: stop.yml
+- import_task: start.yml

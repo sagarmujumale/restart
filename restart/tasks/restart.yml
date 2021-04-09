@@ -1,9 +1,8 @@
-- name: Stop the sandbox instances
+- name: Start the sandbox instances
   ec2:
     aws_access_key: '{{ aws_access_key_id }}'
     aws_secret_key: '{{ aws_secret_access_key }}'
-    security_token: '{{ aws_session_token }}'
     instance_ids: '{{ instance_ids }}'
     region: '{{ region }}'
-    state: stopped
+    state: running
     wait: True
